@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
+import TodoFilter from './components/TodoFilter';
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -30,12 +31,25 @@ function App() {
         setTodos(newTodos);
     }
 
+    const filterBy = (todos) => {
+        const doneTodos = todos.filter(todo => {
+            if (todo.complete === true) {
+                console.log(todo);
+                return todo;
+            }
+        })
+        return doneTodos;
+    }
+
     return (
         <div className="wrapper">
             <Typography variant="h1" component="h2" align="center">
                 Todo
             </Typography>
-            <TodoForm addTodo={addTodo} />            
+            <TodoForm addTodo={addTodo} />
+            <TodoFilter 
+                filterBy={filterBy}
+            />
             <TodoList 
                 todos={todos}
                 removeTodo={removeTodo}
