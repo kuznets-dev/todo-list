@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Typography from '@material-ui/core/Typography';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
@@ -29,7 +30,9 @@ function App() {
 
   return (
     <div className="wrapper">
-      <h1 className="title">Todo</h1>
+      <Typography variant="h1" component="h2" align="center">
+        Todo
+      </Typography>
       <TodoForm addTodo={addTodo} />
       {todos.map((todo) => {
         return (
