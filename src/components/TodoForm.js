@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 function TodoForm({ addTodo }) {
-    const [input, setInput] = useState('');
+    const [todoName, setTodoName] = useState('');
 
-    const handleChange = ((event) => {
-        setInput(event.target.value)
+    const handleChange = (event => {
+        setTodoName(event.target.value)
     })
 
-    const handleSumbit = ((event) => {
+    const handleSumbit = (event => {
         event.preventDefault();
-        addTodo(input);
-        setInput("");
+        addTodo(todoName);
+        setTodoName('');
     })
 
-    const handleKeyDown = ((event) => {
-        if (event.key === "Enter") {
+    const handleKeyDown = (event => {
+        if (event.key === 'Enter') {
             handleSumbit(event);
         }
     })
@@ -23,10 +23,10 @@ function TodoForm({ addTodo }) {
     return (
         <form onSubmit={handleSumbit}>
             <TextField
-                value={input}
+                value={todoName}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
-                placeholder="I want to..."
+                onKeyDown={handleKeyDown} 
+                placeholder="I want too..."
                 margin="normal"
                 fullWidth
                 InputLabelProps={{
@@ -35,7 +35,7 @@ function TodoForm({ addTodo }) {
                 variant="outlined"
             />
         </form>
-    );
+    )
 }
 
 export default TodoForm;
