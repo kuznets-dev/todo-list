@@ -4,49 +4,45 @@ import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
 function App() {
-  const [todos, setTodos] = useState([]);
+    const [todos, setTodos] = useState([]);
 
-  const addTodo = (input) => {
-    if (input && input.length < 30) {
-      const newItem = {
-        id: Math.floor(Math.random() * (1000 - 1 + 1)) + 1,
-        text: input,
-        complete: false
-      }
-      setTodos([...todos, newItem])
-    } else {
-      alert('Your Todo is big')
+    const addTodo = (todoName) => {
+        if (todoName) {
+            const newItem = {
+                id: Math.floor(Math.random() * (1000 - + 1)) +1,
+                task: todoName,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString(),
+                complete: false
+            }
+            setTodos([...todos, newItem])
+        }
     }
-  }
 
-  const removeTodo = (id) => {
-    console.log(id);
-    setTodos([...todos.filter((todo) => todo.id !== id)])
-  }
+    const removeTodo = (id) => {
+        setTodos(todos.filter(todo => todo.id !== id))
+    }
 
-  const toggleTodo = () => {
+    const toggleTodo = (id) => {        
+        const newTodos = [...todos];        
+        const todoId = newTodos.findIndex(el => el.id === id);        
+        newTodos[todoId].complete = !newTodos[todoId].complete;
+        setTodos(newTodos);
+    }
 
-  }
-
-  return (
-    <div className="wrapper">
-      <Typography variant="h1" component="h2" align="center">
-        Todo
-      </Typography>
-      <TodoForm addTodo={addTodo} />
-      {todos.map((todo) => {
-        return (
-          <TodoList
-          todo={todo} 
-          key={todo.id}
-          toggleTodo={toggleTodo}
-          removeTodo={removeTodo}
-          />
-        )
-      })
-      }
-    </div>
-  );
+    return (
+        <div className="wrapper">
+            <Typography variant="h1" component="h2" align="center">
+                Todo
+            </Typography>
+            <TodoForm addTodo={addTodo} />            
+            <TodoList 
+                todos={todos}
+                removeTodo={removeTodo}
+                toggleTodo={toggleTodo}
+            />
+        </div>
+    )
 }
 
 export default App;
