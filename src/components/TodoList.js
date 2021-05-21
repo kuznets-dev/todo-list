@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import List from '@material-ui/core/List';
+import TodoItem from './TodoItem';
 
-function TodoList({ todo, toggleTodo, removeTodo }) {
+function TodoList({ todos, removeTodo, toggleTodo }) {
     return (
-        <div style={{ margin: 0, padding: 0, display:'flex', justifyContent: 'space-between' }} key={todo.id}>
-            <div onClick={() => toggleTodo(todo.id)}>
-                {todo.text}
-            </div>
-            <IconButton aria-label="delete" onClick={() => removeTodo(todo.id)}>
-                <DeleteIcon />
-            </IconButton>
-        </div>
+        <List>
+            {todos.map(todo => 
+                <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    removeTodo={removeTodo}
+                    toggleTodo={toggleTodo}
+                />)
+            }
+        </List>
     )
 }
 
