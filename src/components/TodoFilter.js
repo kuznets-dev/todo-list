@@ -1,28 +1,27 @@
 import { Button, ButtonGroup, Grid } from '@material-ui/core';
 import React, { useState } from 'react';
 
-function TodoFilter({ filterBy }) {
-    const [todoTask, setTodoTask] = useState([]);
-
-    const handleChange = (event => {
-        event.preventDefault();
-        filterBy(todoTask);
-    })
+function TodoFilter() {
 
     return (
         <ButtonGroup>
             <Button
+                value="all"
                 variant="outlined"
                 color="default" >
                 All
             </Button>
             <Button
-                onClick={handleChange}
+                // onClick={() => filterBy(todos.complete)}
+                value="done"
                 variant="outlined"
                 color="primary">
                 Done
             </Button>
-            <Button variant="outlined" color="secondary">
+            <Button
+                value="undone"
+                variant="outlined"
+                color="secondary">
                 Undone
             </Button>
         </ButtonGroup>
