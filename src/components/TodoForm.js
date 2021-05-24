@@ -26,7 +26,7 @@ function TodoForm({ addTodo }) {
                 value={todoName}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown} 
-                placeholder="I want too..."
+                placeholder="I want to..."
                 margin="normal"
                 fullWidth
                 InputLabelProps={{
