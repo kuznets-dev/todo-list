@@ -84,6 +84,7 @@ function App() {
                 <Grid>
                     <TodoFilter
                         filterTodos={filterTodos}
+                        todoStatus={todoStatus}
                         setTodoStatus={setTodoStatus}
                     />
                 </Grid>
