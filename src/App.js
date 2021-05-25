@@ -10,7 +10,8 @@ function App() {
 
     // State
     const [todos, setTodos] = useState([]);
-    const [todoStatus, setTodoStatus] = useState({status: 'all'});
+    // const [todoStatus, setTodoStatus] = useState({status: 'all'});
+    const [todoDate, setTodoDate] = useState({sortDate: true});
 
     // Add new todo
     const addTodo = (todoName) => {
@@ -19,7 +20,7 @@ function App() {
                 id: Math.floor(Math.random() * (1000 - + 1)) +1,
                 task: todoName,
                 date: new Date().toLocaleDateString(),
-                time: new Date().toLocaleTimeString(),
+                time: new Date().getTime(),
                 complete: false
             }
             setTodos([...todos, newItem])
@@ -44,18 +45,21 @@ function App() {
     //     setTodos(todos.filter(todo => todo.complete !== complete))
     // }
 
-    const filterBy = (complete) => {
-        const filterTodos = [...todos].filter(item => {
-            if (item.complete === false) {
-                return item;
-            }
-        })
-    }
+    // const filterBy = (complete) => {
+    //     const filterTodos = [...todos].filter(item => {
+    //         if (item.complete === false) {
+    //             return item;
+    //         }
+    //     })
+    // }
 
     // Sorting by date
     const sortBy = (time) => {
-        const sortTodo = [...todos].sort((a, b) => {return b.time - a.time});
-        return sortTodo;
+        if (!time) {
+            setTodos(prev => prev.sort((a, b) => b.time - a.time))
+        } else {
+            setTodos(prev => prev.sort((a, b) => a.time - b.time))
+        }
     }
 
     return (
@@ -74,11 +78,15 @@ function App() {
                 alignItems="center">
                 <Grid>
                     <TodoFilter
-                        filterBy={filterBy} 
+                        // filterBy={filterBy}
                     />
                 </Grid>
                 <Grid>
-                    <TodoSort sortBy={sortBy}></TodoSort>
+                    <TodoSort
+                        sortBy={sortBy}
+                        todoDate={todoDate}
+                        setTodoDate={setTodoDate}>
+                    </TodoSort>
                 </Grid>
             </Grid>
             <TodoList 
