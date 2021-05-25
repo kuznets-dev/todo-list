@@ -1,7 +1,7 @@
 import ListItem from '@material-ui/core/ListItem';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Checkbox, FormControlLabel, Grid, ListItemText } from '@material-ui/core';
+import { Checkbox, Grid, ListItemText } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
