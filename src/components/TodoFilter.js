@@ -1,25 +1,24 @@
-import { Button, ButtonGroup, Grid } from '@material-ui/core';
-import React, { useState } from 'react';
+import React from 'react';
+import { Button, ButtonGroup } from '@material-ui/core';
 
-function TodoFilter() {
+function TodoFilter({ todoStatus, setTodoStatus }) {
 
     return (
         <ButtonGroup>
             <Button
-                value="all"
-                variant="outlined"
-                color="default" >
+                onClick={() => setTodoStatus('all')}
+                variant="contained"
+                color="default">
                 All
             </Button>
             <Button
-                // onClick={() => filterBy(todos.complete)}
-                value="done"
+                onClick={() => setTodoStatus('done')}
                 variant="outlined"
                 color="primary">
                 Done
             </Button>
             <Button
-                value="undone"
+                onClick={() => setTodoStatus('undone')}
                 variant="outlined"
                 color="secondary">
                 Undone
