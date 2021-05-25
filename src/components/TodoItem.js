@@ -13,14 +13,12 @@ function TodoItem({ todo, removeTodo, toggleTodo }) {
                 direction="row"
                 alignItems="center">
                 <Grid item xs={1}>
-                    <FormControlLabel
-                        onClick={() => toggleTodo(todo.id)} 
-                        control={<Checkbox 
-                        icon={<DoneIcon />} 
-                        checkedIcon={<DoneAllIcon 
-                        color="primary"/>} 
-                        name="checkedH" />}
-                    />
+                    <Checkbox
+                    onClick={() => toggleTodo(todo.id)}
+                    icon={<DoneIcon />}
+                    checkedIcon={<DoneAllIcon
+                    color="primary" />}
+                    checked={todo.status} />
                 </Grid>
                 <Grid item xs={8}>
                     <ListItemText>
@@ -33,8 +31,8 @@ function TodoItem({ todo, removeTodo, toggleTodo }) {
                     </ListItemText>
                 </Grid>
                 <Grid item xs={1}>
-                    <IconButton 
-                        aria-label="delete" 
+                    <IconButton
+                        aria-label="delete"
                         onClick={() => removeTodo(todo.id)}>
                         <DeleteIcon />
                     </IconButton>
