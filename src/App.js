@@ -11,7 +11,7 @@ function App() {
     // State
     const [todos, setTodos] = useState([]);
     const [todoStatus, setTodoStatus] = useState('all');
-    const [todoSort, setTodoSort] = useState({sortDate: true});
+    const [todoSort, setTodoSort] = useState(true);
 
     // Add new todo
     const addTodo = (todoName) => {
@@ -40,7 +40,7 @@ function App() {
         setTodos(newTodos);
     }
 
-    // Filtering by status
+    // Filtering and sorting
     const filterTodos = useMemo(() => {
         const newTodos = [...todos];
 
@@ -53,18 +53,19 @@ function App() {
                 default:
                     return todo.status === false;
             }
-        })
-        return filteredTodos;
-    }, [todos, todoStatus]);
 
-    // Sorting by date
-    const sortBy = (time) => {
-        if (!time) {
-            setTodos(prev => prev.sort((a, b) => b.time - a.time))
-        } else {
-            setTodos(prev => prev.sort((a, b) => a.time - b.time))
-        }
-    }
+        })
+
+        const sortBy = filteredTodos.sort((a, b) => {
+            if (!todoSort) {
+                return b.time - a.time;
+            }
+            return a.time - b.time;
+        })
+
+        return sortBy;
+
+    }, [todos, todoStatus, todoSort]);
 
     return (
         <div className="wrapper">
@@ -88,7 +89,6 @@ function App() {
                 </Grid>
                 <Grid>
                     <TodoSort
-                        sortBy={sortBy}
                         todoSort={todoSort}
                         setTodoSort={setTodoSort}>
                     </TodoSort>
