@@ -1,12 +1,15 @@
 import React from 'react';
-import { Button, ButtonGroup, Grid, IconButton, Typography } from '@material-ui/core';
+import { Grid, IconButton, Typography } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-function TodoSort({ sortBy }) {
+function TodoSort({ sortBy, todoDate, setTodoDate}) {
 
-    const handleSort = (event) => {
-        console.log(event.target.value);
+    const handleSort = (date) => {
+        if (date !== todoDate.sortDate){
+            setTodoDate(prev => ({...prev, sortDate: date}));
+            sortBy(date)
+        }
     }
 
     return (
@@ -20,13 +23,15 @@ function TodoSort({ sortBy }) {
                 Sorted by Date
             </Typography>
             <IconButton
-                onClick={handleSort}
+                color={todoDate.sortDate ? 'primary' : 'default'}
+                onClick={() => handleSort(true)}
                 aria-label="delete"
                 size="small">
                 <ArrowUpwardIcon fontSize="inherit" />
             </IconButton>
             <IconButton
-                onClick={handleSort}
+                color={!todoDate.sortDate ? 'primary' : 'default'}
+                onClick={() => handleSort(false)}
                 aria-label="delete"
                 size="small">
                 <ArrowDownwardIcon fontSize="inherit" />
