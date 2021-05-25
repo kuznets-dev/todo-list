@@ -72,12 +72,12 @@ function App() {
                 direction="row"
                 justify="space-between"
                 alignItems="center">
-                <Grid item xs={4}>
+                <Grid>
                     <TodoFilter
                         filterBy={filterBy} 
                     />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid>
                     <TodoSort sortBy={sortBy}></TodoSort>
                 </Grid>
             </Grid>
