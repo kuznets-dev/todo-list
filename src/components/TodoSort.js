@@ -3,11 +3,11 @@ import { Grid, IconButton, Typography } from '@material-ui/core';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
-function TodoSort({ sortBy, todoDate, setTodoDate}) {
+function TodoSort({ sortBy, todoSort, setTodoSort}) {
 
     const handleSort = (date) => {
-        if (date !== todoDate.sortDate){
-            setTodoDate(prev => ({...prev, sortDate: date}));
+        if (date !== todoSort.sortDate){
+            setTodoSort(prev => ({...prev, sortDate: date}));
             sortBy(date)
         }
     }
@@ -23,14 +23,14 @@ function TodoSort({ sortBy, todoDate, setTodoDate}) {
                 Sorted by Date
             </Typography>
             <IconButton
-                color={todoDate.sortDate ? 'primary' : 'default'}
+                color={todoSort.sortDate ? 'primary' : 'default'}
                 onClick={() => handleSort(true)}
                 aria-label="delete"
                 size="small">
                 <ArrowUpwardIcon fontSize="inherit" />
             </IconButton>
             <IconButton
-                color={!todoDate.sortDate ? 'primary' : 'default'}
+                color={!todoSort.sortDate ? 'primary' : 'default'}
                 onClick={() => handleSort(false)}
                 aria-label="delete"
                 size="small">
