@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
@@ -10,18 +10,18 @@ function App() {
 
     // State
     const [todos, setTodos] = useState([]);
-    // const [todoStatus, setTodoStatus] = useState({status: 'all'});
-    const [todoDate, setTodoDate] = useState({sortDate: true});
+    const [todoStatus, setTodoStatus] = useState('all');
+    const [todoSort, setTodoSort] = useState({sortDate: true});
 
     // Add new todo
     const addTodo = (todoName) => {
         if (todoName) {
             const newItem = {
-                id: Math.floor(Math.random() * (1000 - + 1)) +1,
+                id: Math.floor(Math.random() * (1000 - 1 + 1)) +1,
                 task: todoName,
                 date: new Date().toLocaleDateString(),
                 time: new Date().getTime(),
-                complete: false
+                status: false
             }
             setTodos([...todos, newItem])
         }
@@ -36,22 +36,26 @@ function App() {
     const toggleTodo = (id) => {        
         const newTodos = [...todos];        
         const todoId = newTodos.findIndex(el => el.id === id);        
-        newTodos[todoId].complete = !newTodos[todoId].complete;
+        newTodos[todoId].status = !newTodos[todoId].status;
         setTodos(newTodos);
     }
 
     // Filtering by status
-    // const filterBy = (todoStatus) => {
-    //     setTodos(todos.filter(todo => todo.complete !== complete))
-    // }
+    const filterTodos = useMemo(() => {
+        const newTodos = [...todos];
 
-    // const filterBy = (complete) => {
-    //     const filterTodos = [...todos].filter(item => {
-    //         if (item.complete === false) {
-    //             return item;
-    //         }
-    //     })
-    // }
+        const filteredTodos = newTodos.filter(todo => {
+            switch (todoStatus) {
+                case 'all':
+                    return todo;
+                case 'done':
+                    return todo.status === true;
+                default:
+                    return todo.status === false;
+            }
+        })
+        return filteredTodos;
+    }, [todos, todoStatus]);
 
     // Sorting by date
     const sortBy = (time) => {
@@ -70,7 +74,7 @@ function App() {
                 align="center">
                 Todo
             </Typography>
-            <TodoForm addTodo={addTodo} />
+            <TodoForm addTodo={addTodo}/>
             <Grid
                 container
                 direction="row"
@@ -78,19 +82,20 @@ function App() {
                 alignItems="center">
                 <Grid>
                     <TodoFilter
-                        // filterBy={filterBy}
+                        filterTodos={filterTodos}
+                        setTodoStatus={setTodoStatus}
                     />
                 </Grid>
                 <Grid>
                     <TodoSort
                         sortBy={sortBy}
-                        todoDate={todoDate}
-                        setTodoDate={setTodoDate}>
+                        todoSort={todoSort}
+                        setTodoSort={setTodoSort}>
                     </TodoSort>
                 </Grid>
             </Grid>
             <TodoList 
-                todos={todos}
+                todos={filterTodos}
                 removeTodo={removeTodo}
                 toggleTodo={toggleTodo}
             />
