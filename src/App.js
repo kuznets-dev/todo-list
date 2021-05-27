@@ -38,9 +38,16 @@ function App() {
     // Change status todo
     const toggleTodo = (id) => {        
         const newTodos = [...todos];        
-        const todoId = newTodos.findIndex(el => el.id === id);        
+        const todoId = newTodos.findIndex(todo => todo.id === id);        
         newTodos[todoId].status = !newTodos[todoId].status;
         setTodos(newTodos);
+    }
+
+    // Rename todo
+    const changeNameTodo = (id, todoName) => {
+        const newTodos = [...todos];
+        const todoId = newTodos.findIndex(todo => todo.id === id);
+        newTodos[todoId].task = todoName;
     }
 
     // Filtering and sorting
@@ -109,6 +116,7 @@ function App() {
                 todos={paginationTodo}
                 removeTodo={removeTodo}
                 toggleTodo={toggleTodo}
+                changeNameTodo={changeNameTodo}
             />
             {(paginationTodo.length > 0) && 
                 <Pagination
