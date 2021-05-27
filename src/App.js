@@ -5,6 +5,7 @@ import TodoList from './components/TodoList';
 import TodoFilter from './components/TodoFilter';
 import TodoSort from './components/TodoSort';
 import { Grid } from '@material-ui/core';
+import Pagination from './components/Pagination';
 
 function App() {
 
@@ -12,6 +13,8 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [todoStatus, setTodoStatus] = useState('all');
     const [todoSort, setTodoSort] = useState(true);
+    const [currentPage, setCurrentpage] = useState(1);
+    const [perPage] = useState(5);  
 
     // Add new todo
     const addTodo = (todoName) => {
@@ -53,7 +56,6 @@ function App() {
                 default:
                     return todo.status === false;
             }
-
         })
 
         const sortBy = filteredTodos.sort((a, b) => {
@@ -66,6 +68,14 @@ function App() {
         return sortBy;
 
     }, [todos, todoStatus, todoSort]);
+
+    // Pagination
+    const paginationTodo = useMemo(() => {
+        const indexOfLastPost = currentPage * perPage;
+        const indexOfFirstPost = indexOfLastPost - perPage;
+        const currentTodos = filterTodos.slice(indexOfFirstPost, indexOfLastPost);
+        return currentTodos;
+    }, [currentPage, perPage, filterTodos]);
 
     return (
         <div className="wrapper">
@@ -96,10 +106,18 @@ function App() {
                 </Grid>
             </Grid>
             <TodoList 
-                todos={filterTodos}
+                todos={paginationTodo}
                 removeTodo={removeTodo}
                 toggleTodo={toggleTodo}
             />
+            {(paginationTodo.length > 0) && 
+                <Pagination
+                    totalTodos={filterTodos.length}
+                    perPage={perPage}
+                    currentPage={currentPage}
+                    setCurrentpage={setCurrentpage}>
+                </Pagination>
+            }
         </div>
     )
 }
