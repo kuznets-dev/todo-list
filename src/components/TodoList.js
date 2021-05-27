@@ -1,7 +1,7 @@
 import List from '@material-ui/core/List';
 import TodoItem from './TodoItem';
 
-function TodoList({ todos, removeTodo, toggleTodo }) {
+function TodoList({ todos, removeTodo, toggleTodo, changeNameTodo }) {
     return (
         <List>
             {todos.map(todo => 
@@ -10,6 +10,7 @@ function TodoList({ todos, removeTodo, toggleTodo }) {
                     todo={todo}
                     removeTodo={removeTodo}
                     toggleTodo={toggleTodo}
+                    changeNameTodo={changeNameTodo}
                 />)
             }
         </List>
