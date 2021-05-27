@@ -9,7 +9,7 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
 
     const [toggleNameTodo, setToggleNameTodo] = useState(false);
-    const [todoName, setTodoName] = useState(todo.task);
+    const [todoName, setTodoName] = useState(todo.name);
 
     const handleKeyDown = (id, e) => {
         if (e.keyCode === 13) {
@@ -22,7 +22,7 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
         }
         if (e.keyCode === 27) {
             setToggleNameTodo(false);
-            setTodoName(todo.task);
+            setTodoName(todo.name);
         }
     }
 
@@ -34,11 +34,11 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                 alignItems="center">
                 <Grid item xs={1}>
                     <Checkbox
-                    onClick={() => toggleTodo(todo.id)}
+                    onClick={() => toggleTodo(todo)}
                     icon={<DoneIcon />}
                     checkedIcon={<DoneAllIcon
                     color="primary" />}
-                    checked={todo.status} />
+                    checked={todo.done} />
                 </Grid>
                 <Grid item xs={8}>
                     {toggleNameTodo 
@@ -48,7 +48,7 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                             autoFocus={true}
                             variant='outlined'
                             onChange={(e) => setTodoName(e.target.value)}
-                            onKeyDown={(e) => handleKeyDown(todo.id, e)} />
+                            onKeyDown={(e) => handleKeyDown(todo.uuid, e)} />
                         :   <ListItemText 
                                 primary={todoName}
                                 style={{overflowWrap: 'break-word'}}
@@ -58,13 +58,13 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                 </Grid>
                 <Grid item xs={2}>
                     <ListItemText>
-                        {todo.date}
+                        {todo.updatedAt}
                     </ListItemText>
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton
                         aria-label="delete"
-                        onClick={() => removeTodo(todo.id)}>
+                        onClick={() => removeTodo(todo.uuid)}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
