@@ -15,7 +15,6 @@ function App() {
     const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
     const [currentPage, setCurrentpage] = useState(1);
-    const [perPage] = useState(5);
     
     // Fetch API
     // GET
@@ -72,6 +71,7 @@ function App() {
     }
 
     // Pagination
+    const perPage = 5;
     const paginationTodo = useMemo(() => {
         const indexOfLastPost = currentPage * perPage;
         const indexOfFirstPost = indexOfLastPost - perPage;

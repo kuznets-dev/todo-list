@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Grid } from '@material-ui/core';
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 import React from 'react';
 
-function Pagination({ totalTodos, perPage, currentPage, setCurrentpage }) {
+function Pagination({ totalTodos, perPage, setCurrentpage }) {
     const pageNumber = [];
 
     for (let i = 1; i <= Math.ceil(totalTodos / perPage); i++) {
