@@ -50,7 +50,7 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                             onChange={(e) => setTodoName(e.target.value)}
                             onKeyDown={(e) => handleKeyDown(todo.uuid, e)} />
                         :   <ListItemText 
-                            primary={todoName}
+                            primary={todo.name}
                             style={{overflowWrap: 'break-word'}}
                             multiline='true'
                             onClick={() => setToggleNameTodo(true)} />
