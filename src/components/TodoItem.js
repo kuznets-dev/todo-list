@@ -6,7 +6,7 @@ import { Checkbox, Grid, ListItemText, TextField } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
-function TodoItem({ todo, removeTodo, checkTodo, changeTodo }) {
+function TodoItem({ todo, removeTodo, changeTodo }) {
 
     const [changeNameTodo, setChangeNameTodo] = useState(false);
     const [todoName, setTodoName] = useState(todo.name);
@@ -16,12 +16,16 @@ function TodoItem({ todo, removeTodo, checkTodo, changeTodo }) {
             e.preventDefault();
 
             setChangeNameTodo(false);
-            changeTodo(todo, todoName);
+            changeTodo(todo, todoName, todo.done);
         };
         if (e.key === "Escape") {
             setChangeNameTodo(false);
             setTodoName(todo.name);
         };
+    }
+
+    const handleDone = (todo) => {
+        changeTodo(todo, todoName, !todo.done)
     }
 
     const onBlur = () => {
@@ -37,7 +41,7 @@ function TodoItem({ todo, removeTodo, checkTodo, changeTodo }) {
                 alignItems="center">
                 <Grid item xs={1}>
                     <Checkbox
-                    onClick={() => checkTodo(todo)}
+                    onClick={() => handleDone(todo)}
                     icon={<DoneIcon />}
                     checkedIcon={<DoneAllIcon
                     color="primary" />}

@@ -50,22 +50,11 @@ function App() {
     }
 
     // PATCH
-    // Change status todo
-    const checkTodo = async (todo) => {
-        await axios.patch(`/v1/task/1/${todo.uuid}`,
-        {
-            name: todo.name,
-            done: !todo.done
-        });
-        await fetchTodos();
-    }
-
-    // PATCH
-    // Rename todo
-    const changeTodo = async (todo, todoName) => {
+    // Change and rename todo
+    const changeTodo = async (todo, name, done) => {
         await axios.patch(`/v1/task/1/${todo.uuid}`, {
-            name: todoName,
-            done: todo.done
+            name: name,
+            done: done
         });
         await fetchTodos();
     }
@@ -109,7 +98,6 @@ function App() {
             <TodoList 
                 todos={paginationTodo}
                 removeTodo={removeTodo}
-                checkTodo={checkTodo}
                 changeTodo={changeTodo}
             />
             {(todos.length >= 5) && 
