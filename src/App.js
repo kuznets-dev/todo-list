@@ -64,11 +64,14 @@ function App() {
         await fetchTodos();
     }
 
+    // PATCH
     // Rename todo
-    const changeNameTodo = (id, todoName) => {
-        const newTodos = [...todos];
-        const todoId = newTodos.findIndex(todo => todo.id === id);
-        newTodos[todoId].task = todoName;
+    const changeNameTodo = async (todo, todoName) => {
+        await axios.patch(`${POSTurl}/${todo.uuid}`, {
+            name: todoName,
+            done: todo.done
+        });
+        await fetchTodos();
     }
 
     // Pagination
