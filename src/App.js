@@ -14,7 +14,7 @@ function App() {
     const GETurl = '/v1/tasks/1';
     const POSTurl = '/v1/task/1';
     const [todos, setTodos] = useState([]);
-    const [todoStatus, setTodoStatus] = useState('all');
+    const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
     const [currentPage, setCurrentpage] = useState(1);
     const [perPage] = useState(5);
@@ -22,10 +22,14 @@ function App() {
     // Fetch API
     // GET
     const fetchTodos = useCallback(async () => {
-        const response = await axios.get(GETurl);
-        console.log(response.data);
+        const response = await axios.get(GETurl, {
+        params: {
+            filterBy: todoStatus,
+            order: todoSort ? "asc" : 'desc'
+        }});
+        console.log(JSON.stringify(response.data, null, 2));
         setTodos(response.data)
-    }, [setTodos]);
+    }, [todoStatus, todoSort]);
 
     useEffect(() => {
         fetchTodos()
@@ -66,32 +70,6 @@ function App() {
         const todoId = newTodos.findIndex(todo => todo.id === id);
         newTodos[todoId].task = todoName;
     }
-
-    // Filtering and sorting
-    // const filterTodos = useMemo(() => {
-    //     const newTodos = [...todos];
-
-    //     const filteredTodos = newTodos.filter(todo => {
-    //         switch (todoStatus) {
-    //             case 'all':
-    //                 return todo;
-    //             case 'done':
-    //                 return todo.status === true;
-    //             default:
-    //                 return todo.status === false;
-    //         }
-    //     })
-
-    //     const sortBy = filteredTodos.sort((a, b) => {
-    //         if (!todoSort) {
-    //             return b.time - a.time;
-    //         }
-    //         return a.time - b.time;
-    //     })
-
-    //     return sortBy;
-
-    // }, [todos, todoStatus, todoSort]);
 
     // Pagination
     const paginationTodo = useMemo(() => {
