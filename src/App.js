@@ -76,10 +76,9 @@ function App() {
 
     // Pagination
     const paginationTodo = useMemo(() => {
-        const filterTodos = [...todos];
         const indexOfLastPost = currentPage * perPage;
         const indexOfFirstPost = indexOfLastPost - perPage;
-        const currentTodos = filterTodos.slice(indexOfFirstPost, indexOfLastPost);
+        const currentTodos = todos.slice(indexOfFirstPost, indexOfLastPost);
         return currentTodos;
     }, [currentPage, perPage, todos]);
 
@@ -99,7 +98,6 @@ function App() {
                 alignItems="center">
                 <Grid>
                     <TodoFilter
-                        filterTodos={paginationTodo}
                         todoStatus={todoStatus}
                         setTodoStatus={setTodoStatus}
                     />
@@ -117,9 +115,9 @@ function App() {
                 toggleTodo={toggleTodo}
                 changeNameTodo={changeNameTodo}
             />
-            {(paginationTodo.length > 0) && 
+            {(todos.length > 0) && 
                 <Pagination
-                    totalTodos={paginationTodo.length}
+                    totalTodos={todos.length}
                     perPage={perPage}
                     currentPage={currentPage}
                     setCurrentpage={setCurrentpage}>
