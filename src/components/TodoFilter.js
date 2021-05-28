@@ -6,8 +6,8 @@ function TodoFilter({ todoStatus, setTodoStatus }) {
     return (
         <ButtonGroup>
             <Button
-                onClick={() => setTodoStatus('all')}
-                variant={todoStatus === "all" ? "contained" : "outlined"}
+                onClick={() => setTodoStatus('')}
+                variant={todoStatus === "" ? "contained" : "outlined"}
                 color="default">
                 All
             </Button>
