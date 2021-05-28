@@ -6,22 +6,27 @@ import { Checkbox, Grid, ListItemText, TextField } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 
-function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
+function TodoItem({ todo, removeTodo, checkTodo, changeTodo }) {
 
-    const [toggleNameTodo, setToggleNameTodo] = useState(false);
+    const [changeNameTodo, setChangeNameTodo] = useState(false);
     const [todoName, setTodoName] = useState(todo.name);
 
     const handleKeyDown = (todo, e) => {
         if (e.key === "Enter") {
             e.preventDefault();
 
-            setToggleNameTodo(false);
-            changeNameTodo(todo, todoName);
+            setChangeNameTodo(false);
+            changeTodo(todo, todoName);
         };
         if (e.key === "Escape") {
-            setToggleNameTodo(false);
+            setChangeNameTodo(false);
             setTodoName(todo.name);
         };
+    }
+
+    const onBlur = () => {
+        setChangeNameTodo(false);
+        setTodoName(todo.name);
     }
 
     return (
@@ -32,26 +37,27 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                 alignItems="center">
                 <Grid item xs={1}>
                     <Checkbox
-                    onClick={() => toggleTodo(todo)}
+                    onClick={() => checkTodo(todo)}
                     icon={<DoneIcon />}
                     checkedIcon={<DoneAllIcon
                     color="primary" />}
                     checked={todo.done} />
                 </Grid>
                 <Grid item xs={8}>
-                    {toggleNameTodo 
+                    {changeNameTodo 
                         ? <TextField 
                             multiline={true}
                             value={todoName}
                             autoFocus={true}
                             variant='outlined'
                             onChange={(e) => setTodoName(e.target.value)}
-                            onKeyDown={(e) => handleKeyDown(todo, e)} />
-                        :   <ListItemText 
+                            onKeyDown={(e) => handleKeyDown(todo, e)} 
+                            onBlur={onBlur} />
+                        :   <ListItemText
                             primary={todo.name}
                             style={{overflowWrap: 'break-word'}}
                             multiline='true'
-                            onClick={() => setToggleNameTodo(true)} />
+                            onClick={() => setChangeNameTodo(true)} />
                     }
                 </Grid>
                 <Grid item xs={2}>
