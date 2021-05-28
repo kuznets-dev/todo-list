@@ -27,7 +27,6 @@ function App() {
             filterBy: todoStatus,
             order: todoSort ? "asc" : 'desc'
         }});
-        console.log(JSON.stringify(response.data, null, 2));
         setTodos(response.data)
     }, [todoStatus, todoSort]);
 

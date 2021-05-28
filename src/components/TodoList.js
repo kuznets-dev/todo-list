@@ -6,7 +6,7 @@ function TodoList({ todos, removeTodo, toggleTodo, changeNameTodo }) {
         <List>
             {todos.map(todo => 
                 <TodoItem
-                    key={todo.id}
+                    key={todo.uuid}
                     todo={todo}
                     removeTodo={removeTodo}
                     toggleTodo={toggleTodo}
