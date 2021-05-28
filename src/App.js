@@ -7,6 +7,9 @@ import TodoSort from './components/TodoSort';
 import { Grid } from '@material-ui/core';
 import Pagination from './components/Pagination';
 import axios from './axiosConfig';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+import { AlertTitle } from '@material-ui/lab';
 
 function App() {
 
@@ -15,6 +18,7 @@ function App() {
     const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
     const [currentPage, setCurrentpage] = useState(1);
+    const [errorAlert, setErrorAlert] = useState({alert: false, message: 'message', statusCode: 'status'});
     
     // Fetch API
     // GET
@@ -34,29 +38,53 @@ function App() {
     // POST
     // Add new todo
     const addTodo = async (todoName) => {
-        await axios.post('/v1/task/1', 
-        {
-            name: todoName,
-            done: false,
-        });
-        await fetchTodos();
+        try {
+            await axios.post('/v1/task/1', 
+            {
+                name: todoName,
+                done: false,
+            });
+            await fetchTodos();
+        }
+        catch (err) {
+            const message = err.response.data.message;
+            const status = err.response.status;   
+            setErrorAlert({alert: true, message: message, statusCode: status});
+        }
     }
 
     // DELETE
     // Remove todo
     const removeTodo = async (id) => {
-        await axios.delete(`/v1/task/1/${id}`);
-        await fetchTodos();
-    }
-
+        try {
+            await axios.delete(`/v1/task/1/${id}`);
+            await fetchTodos();
+        }
+        catch (err) {
+            const message = err.response.data.message;
+            const status = err.response.status;   
+            setErrorAlert({alert: true, message: message, statusCode: status});
+        }
+    }    
     // PATCH
     // Change and rename todo
     const changeTodo = async (todo, name, done) => {
-        await axios.patch(`/v1/task/1/${todo.uuid}`, {
-            name: name,
-            done: done
-        });
-        await fetchTodos();
+        try {
+            await axios.patch(`/v1/task/1/${todo.uuid}`, {
+                name: name,
+                done: done
+            });
+            await fetchTodos();
+        }
+        catch (err) {
+            const message = err.response.data.message;
+            const status = err.response.status;   
+            setErrorAlert({alert: true, message: message, statusCode: status});
+        }
+    }
+
+    const handleClose = () => {
+        setErrorAlert(prev => ({...prev, alert: false}));
     }
 
     // Pagination
@@ -108,6 +136,12 @@ function App() {
                     setCurrentpage={setCurrentpage}>
                 </Pagination>
             }
+            <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
+                    {`Status code: ${errorAlert.statusCode}`}
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
