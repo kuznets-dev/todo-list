@@ -54,7 +54,7 @@ function App() {
 
     // PATCH
     // Change status todo
-    const toggleTodo = async (todo) => {
+    const checkTodo = async (todo) => {
         await axios.patch(`${POSTurl}/${todo.uuid}`,
         {
             name: todo.name,
@@ -65,7 +65,7 @@ function App() {
 
     // PATCH
     // Rename todo
-    const changeNameTodo = async (todo, todoName) => {
+    const changeTodo = async (todo, todoName) => {
         await axios.patch(`${POSTurl}/${todo.uuid}`, {
             name: todoName,
             done: todo.done
@@ -111,10 +111,10 @@ function App() {
             <TodoList 
                 todos={paginationTodo}
                 removeTodo={removeTodo}
-                toggleTodo={toggleTodo}
-                changeNameTodo={changeNameTodo}
+                checkTodo={checkTodo}
+                changeTodo={changeTodo}
             />
-            {(todos.length > 0) && 
+            {(todos.length >= 5) && 
                 <Pagination
                     totalTodos={todos.length}
                     perPage={perPage}
