@@ -11,8 +11,6 @@ import axios from './axiosConfig';
 function App() {
 
     // State
-    const GETurl = '/v1/tasks/1';
-    const POSTurl = '/v1/task/1';
     const [todos, setTodos] = useState([]);
     const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
@@ -22,7 +20,7 @@ function App() {
     // Fetch API
     // GET
     const fetchTodos = useCallback(async () => {
-        const response = await axios.get(GETurl, {
+        const response = await axios.get('/v1/tasks/1', {
         params: {
             filterBy: todoStatus,
             order: todoSort ? "asc" : 'desc'
@@ -37,7 +35,7 @@ function App() {
     // POST
     // Add new todo
     const addTodo = async (todoName) => {
-        await axios.post(POSTurl, 
+        await axios.post('/v1/task/1', 
         {
             name: todoName,
             done: false,
@@ -48,14 +46,14 @@ function App() {
     // DELETE
     // Remove todo
     const removeTodo = async (id) => {
-        await axios.delete(`${POSTurl}/${id}`);
+        await axios.delete(`/v1/task/1/${id}`);
         await fetchTodos();
     }
 
     // PATCH
     // Change status todo
     const checkTodo = async (todo) => {
-        await axios.patch(`${POSTurl}/${todo.uuid}`,
+        await axios.patch(`/v1/task/1/${todo.uuid}`,
         {
             name: todo.name,
             done: !todo.done
@@ -66,7 +64,7 @@ function App() {
     // PATCH
     // Rename todo
     const changeTodo = async (todo, todoName) => {
-        await axios.patch(`${POSTurl}/${todo.uuid}`, {
+        await axios.patch(`/v1/task/1/${todo.uuid}`, {
             name: todoName,
             done: todo.done
         });
