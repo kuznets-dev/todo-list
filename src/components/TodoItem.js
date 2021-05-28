@@ -11,19 +11,17 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
     const [toggleNameTodo, setToggleNameTodo] = useState(false);
     const [todoName, setTodoName] = useState(todo.name);
 
-    const handleKeyDown = (id, e) => {
-        if (e.keyCode === 13) {
+    const handleKeyDown = (todo, e) => {
+        if (e.key === "Enter") {
             e.preventDefault();
 
-            if (todoName !== '') {
-                setToggleNameTodo(false);
-                changeNameTodo(id, todoName);
-            }
-        }
-        if (e.keyCode === 27) {
+            setToggleNameTodo(false);
+            changeNameTodo(todo, todoName);
+        };
+        if (e.key === "Escape") {
             setToggleNameTodo(false);
             setTodoName(todo.name);
-        }
+        };
     }
 
     return (
@@ -48,7 +46,7 @@ function TodoItem({ todo, removeTodo, toggleTodo, changeNameTodo }) {
                             autoFocus={true}
                             variant='outlined'
                             onChange={(e) => setTodoName(e.target.value)}
-                            onKeyDown={(e) => handleKeyDown(todo.uuid, e)} />
+                            onKeyDown={(e) => handleKeyDown(todo, e)} />
                         :   <ListItemText 
                             primary={todo.name}
                             style={{overflowWrap: 'break-word'}}
