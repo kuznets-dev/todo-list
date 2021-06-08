@@ -3,7 +3,7 @@ import { Button, Grid, Typography } from "@material-ui/core";
 export const Header = () => {
     return(
             <Grid
-                style={{ background: "#3295FF" }}
+                style={{ background: "#3f51b5" }}
                 container
                 direction="row"
                 justify="space-between"
