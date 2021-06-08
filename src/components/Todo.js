@@ -6,7 +6,7 @@ import TodoFilter from './TodoFilter';
 import TodoSort from './TodoSort';
 import { Grid } from '@material-ui/core';
 import Pagination from './Pagination';
-import axios from './axiosConfig';
+import axios from '../axiosConfig';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
