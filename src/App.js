@@ -23,7 +23,7 @@ function App() {
     // Fetch API
     // GET
     const fetchTodos = useCallback(async () => {
-        const response = await axios.get('/v1/tasks/1', {
+        const response = await axios.get('/tasks', {
         params: {
             filterBy: todoStatus,
             order: todoSort ? "asc" : 'desc'
@@ -39,7 +39,7 @@ function App() {
     // Add new todo
     const addTodo = async (todoName) => {
         try {
-            await axios.post('/v1/task/1', 
+            await axios.post('/task', 
             {
                 name: todoName,
                 done: false,
@@ -57,7 +57,7 @@ function App() {
     // Remove todo
     const removeTodo = async (id) => {
         try {
-            await axios.delete(`/v1/task/1/${id}`);
+            await axios.delete(`task/${id}`);
             await fetchTodos();
         }
         catch (err) {
@@ -70,7 +70,7 @@ function App() {
     // Change and rename todo
     const changeTodo = async (todo, name, done) => {
         try {
-            await axios.patch(`/v1/task/1/${todo.uuid}`, {
+            await axios.patch(`/task/${todo.uuid}`, {
                 name: name,
                 done: done
             });
