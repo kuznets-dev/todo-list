@@ -18,7 +18,7 @@ export const Header = ({ userName, isLogin, setIsLogin }) => {
                 style={{ padding: 20, color:"white" }}
                 variant="h3"
                 align="left">
-                {userName}
+                {isLogin ? userName : "Todo App"}
             </Typography>
             {isLogin && <Button
                 onClick={() => logout()}
