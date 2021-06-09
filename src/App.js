@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container, Snackbar } from "@material-ui/core";
 import { Header } from "./components/Header";
 import Todo from "./components/Todo";
 import Auth from "./components/Auth";
 import axios from './axiosConfig';
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     const [userName, setUserName] = useState('');
     const [isSignup, setIsSignup] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
+    const [errorAlert, setErrorAlert] = useState({alert: false, message: 'message', statusCode: 'status'});
 
     const isToken = useCallback(() => {
         if (localStorage.token) setIsLogin(true);
@@ -28,7 +30,9 @@ function App() {
             })
             setUser({ name: '', password: '' });
         } catch (err) {
-            console.log(err);
+            const message = err.response.data.message;
+            const status = err.response.status;   
+            setErrorAlert({alert: true, message: message, statusCode: status});
         }
     }
 
@@ -43,12 +47,18 @@ function App() {
             setUser({ name: '', password: '' });
             setIsLogin(true);            
         } catch (err) {
-            console.log(err);
+            const message = err.response.data.message;
+            const status = err.response.status;   
+            setErrorAlert({alert: true, message: message, statusCode: status});
         }
     }
 
     const handleChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
+    }
+
+    const handleClose = () => {
+        setErrorAlert(prev => ({...prev, alert: false}));
     }
 
     return(
@@ -69,6 +79,12 @@ function App() {
                 signUp={signUp}
                 login={login}
                 handleChange={handleChange}/>}
+            <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
+                    {`Status code: ${errorAlert.statusCode}`}
+                </Alert>
+            </Snackbar>
         </Container>
     )
 }
