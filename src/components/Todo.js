@@ -11,7 +11,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
 
-function Todo() {
+function Todo({ setUserName }) {
 
     // State
     const [todos, setTodos] = useState([]);
@@ -35,12 +35,13 @@ function Todo() {
                     limit: 5
                 }
             });
-            setPageCount(response.data.pageCount)
-            setTodos(response.data.rows)
+            setUserName(response.data.name);
+            setPageCount(response.data.pageCount);
+            setTodos(response.data.rows);
         } catch (err) {
             console.log(err.response);
         }
-    }, [todoStatus, todoSort, currentPage]);
+    }, [setUserName, todoStatus, todoSort, currentPage]);
 
     useEffect(() => {
         fetchTodos()
