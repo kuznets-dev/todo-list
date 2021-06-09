@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 
-export const Header = ({ isLogin, setIsLogin }) => {
+export const Header = ({ userName, isLogin, setIsLogin }) => {
 
     const logout = () => {
         localStorage.removeItem('token');
@@ -18,7 +18,8 @@ export const Header = ({ isLogin, setIsLogin }) => {
                 style={{ padding: 20, color:"white" }}
                 variant="h3"
                 align="left">
-                Todo App
+                {/* {isLogin ? userName : "Todo App"} */}
+                {userName}
             </Typography>
             {isLogin && <Button
                 onClick={() => logout()}
