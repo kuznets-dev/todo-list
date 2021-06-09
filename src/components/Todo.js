@@ -18,17 +18,25 @@ function Todo() {
     const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
     const [currentPage, setCurrentpage] = useState(1);
-    const [errorAlert, setErrorAlert] = useState({alert: false, message: 'message', statusCode: 'status'});
-    
+    const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
+
     // Fetch API
     // GET
     const fetchTodos = useCallback(async () => {
-        const response = await axios.get('/tasks', {
-        params: {
-            filterBy: todoStatus,
-            order: todoSort ? "asc" : 'desc'
-        }});
-        setTodos(response.data)
+        try {
+            const token = localStorage.getItem('token')
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const response = await axios.get('/tasks', {
+                params: {
+                    filterBy: todoStatus,
+                    orderBy: todoSort ? "asc" : 'desc'
+                }
+            });
+
+            setTodos(response.data.rows)
+        } catch (err) {
+            console.log(err.response);
+        }
     }, [todoStatus, todoSort]);
 
     useEffect(() => {
@@ -39,17 +47,17 @@ function Todo() {
     // Add new todo
     const addTodo = async (todoName) => {
         try {
-            await axios.post('/task', 
-            {
-                name: todoName,
-                done: false,
-            });
+            await axios.post('/task',
+                {
+                    name: todoName,
+                    done: false,
+                });
             await fetchTodos();
         }
         catch (err) {
             const message = err.response.data.message;
-            const status = err.response.status;   
-            setErrorAlert({alert: true, message: message, statusCode: status});
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
         }
     }
 
@@ -62,10 +70,10 @@ function Todo() {
         }
         catch (err) {
             const message = err.response.data.message;
-            const status = err.response.status;   
-            setErrorAlert({alert: true, message: message, statusCode: status});
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
         }
-    }    
+    }
     // PATCH
     // Change and rename todo
     const changeTodo = async (todo, name, done) => {
@@ -78,13 +86,13 @@ function Todo() {
         }
         catch (err) {
             const message = err.response.data.message;
-            const status = err.response.status;   
-            setErrorAlert({alert: true, message: message, statusCode: status});
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
         }
     }
 
     const handleClose = () => {
-        setErrorAlert(prev => ({...prev, alert: false}));
+        setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
     // Pagination
@@ -99,12 +107,13 @@ function Todo() {
     return (
         <div className="wrapper">
             <Typography
+                style={{ marginTop: 50 }}
                 variant="h1"
                 component="h2"
                 align="center">
                 Todo
             </Typography>
-            <TodoForm addTodo={addTodo}/>
+            <TodoForm addTodo={addTodo} />
             <Grid
                 container
                 direction="row"
@@ -123,12 +132,12 @@ function Todo() {
                     </TodoSort>
                 </Grid>
             </Grid>
-            <TodoList 
+            <TodoList
                 todos={paginationTodo}
                 removeTodo={removeTodo}
                 changeTodo={changeTodo}
             />
-            {(todos.length >= 5) && 
+            {(todos.length >= 5) &&
                 <Pagination
                     totalTodos={todos.length}
                     perPage={perPage}
