@@ -1,6 +1,12 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 
-export const Header = () => {
+export const Header = ({ isLogin, setIsLogin }) => {
+
+    const logout = () => {
+        localStorage.removeItem('token');
+        setIsLogin(false);
+    }
+
     return(
             <Grid
                 style={{ background: "#3f51b5" }}
@@ -14,10 +20,13 @@ export const Header = () => {
                 align="left">
                 Todo App
             </Typography>
-            <Button
-                style={{ marginRight: 30, textTransform: "none", fontSize: 18, color: "white" }}>
-                Войти
-            </Button>
+            {isLogin && <Button
+                onClick={() => logout()}
+                style={{ marginRight: 30, textTransform: "none", fontSize: 18 }}
+                variant="contained"
+                color="secondary">
+                Logout
+            </Button>}
         </Grid>
     )
 }
