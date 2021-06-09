@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -17,7 +17,8 @@ function Todo() {
     const [todos, setTodos] = useState([]);
     const [todoStatus, setTodoStatus] = useState('');
     const [todoSort, setTodoSort] = useState(true);
-    const [currentPage, setCurrentpage] = useState(1);
+    const [pageCount, setPageCount] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
 
     // Fetch API
@@ -29,15 +30,17 @@ function Todo() {
             const response = await axios.get('/tasks', {
                 params: {
                     filterBy: todoStatus,
-                    orderBy: todoSort ? "asc" : 'desc'
+                    orderBy: todoSort ? "asc" : 'desc',
+                    page: currentPage,
+                    limit: 5
                 }
             });
-
+            setPageCount(response.data.pageCount)
             setTodos(response.data.rows)
         } catch (err) {
             console.log(err.response);
         }
-    }, [todoStatus, todoSort]);
+    }, [todoStatus, todoSort, currentPage]);
 
     useEffect(() => {
         fetchTodos()
@@ -95,15 +98,6 @@ function Todo() {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
-    // Pagination
-    const perPage = 5;
-    const paginationTodo = useMemo(() => {
-        const indexOfLastPost = currentPage * perPage;
-        const indexOfFirstPost = indexOfLastPost - perPage;
-        const currentTodos = todos.slice(indexOfFirstPost, indexOfLastPost);
-        return currentTodos;
-    }, [currentPage, perPage, todos]);
-
     return (
         <div className="wrapper">
             <Typography
@@ -133,16 +127,15 @@ function Todo() {
                 </Grid>
             </Grid>
             <TodoList
-                todos={paginationTodo}
+                todos={todos}
                 removeTodo={removeTodo}
                 changeTodo={changeTodo}
             />
-            {(todos.length >= 5) &&
+            {(pageCount > 1) &&
                 <Pagination
-                    totalTodos={todos.length}
-                    perPage={perPage}
+                    pageCount={pageCount}
                     currentPage={currentPage}
-                    setCurrentpage={setCurrentpage}>
+                    setCurrentPage={setCurrentPage}>
                 </Pagination>
             }
             <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>

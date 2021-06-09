@@ -2,30 +2,26 @@ import { Button, ButtonGroup, Grid } from '@material-ui/core';
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 import React from 'react';
 
-function Pagination({ totalTodos, perPage, setCurrentpage }) {
-    const pageNumber = [];
-
-    for (let i = 1; i <= Math.ceil(totalTodos / perPage); i++) {
-        pageNumber.push(i);
-    }
-
+function Pagination({ pageCount, currentPage, setCurrentPage }) {
+    
+    const pages = new Array(pageCount).fill('').map((_, i) => i + 1)
     return (
         <Grid
             container
             justify='center'>
             <Button
                 color='primary'
-                onClick={() => setCurrentpage(1)}>
+                onClick={() => setCurrentPage(1)}>
                 <ArrowBackIos />
             </Button>
             <Grid>
                 <ButtonGroup>
-                    {pageNumber.map(item => (
+                    {pages.map(item => (
                         <Button
                             key={item}
-                            color='default'
-                            variant='outlined'
-                            onClick={() => setCurrentpage(item)}>
+                            color="primary"
+                            variant={item === currentPage ? "contained" : "outlined"}
+                            onClick={() => setCurrentPage(item)}>
                             {item}
                         </Button>
                     ))}
@@ -33,7 +29,7 @@ function Pagination({ totalTodos, perPage, setCurrentpage }) {
             </Grid>
             <Button
                 color='primary'
-                onClick={() => setCurrentpage(pageNumber.length)}>
+                onClick={() => setCurrentPage(pages.length)}>
                 <ArrowForwardIos />
             </Button>
         </Grid>
