@@ -1,42 +1,6 @@
-import { useState } from 'react';
-import axios from '../axiosConfig';
 import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
 
-function Auth({ setIsLogin }) {
-    const [user, setUser] = useState({ name: '', password: '' });
-    const [isSignup, setIsSignup] = useState(true);
-
-    const signUp = async () => {
-        try {
-            await axios.post('/registration', {
-                name: user.name,
-                password: user.password
-            })
-            setUser({ name: '', password: '' });
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const login = async () => {
-        try {
-            const res = await axios.post('/login', {
-                name: user.name,
-                password: user.password
-            });
-            const token = res.data.token;
-            localStorage.setItem('token', token);
-            setIsLogin(true);
-            setUser({ name: '', password: '' });
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    const handleChange = (e) => {
-        setUser({...user, [e.target.name]: e.target.value});
-    }
-
+function Auth({ user, isSignup, setIsSignup, signUp, login, handleChange }) {
     return (
         <div className="wrapper">
             <form onSubmit={e => e.preventDefault()}>
@@ -55,7 +19,7 @@ function Auth({ setIsLogin }) {
                         <TextField
                             type="name"
                             name="name"
-                            onChange={e => handleChange(e)}
+                            onChange={handleChange}
                             value={user.name}
                             style={{ marginTop: 30 }}
                             label="Username" />
@@ -75,7 +39,7 @@ function Auth({ setIsLogin }) {
                     align="center">
                         {isSignup
                         ?<Button
-                            onClick={() => signUp()}
+                            onClick={signUp}
                             type="submit"
                             style={{ marginRight: 30, textTransform: 'none' }}
                             variant="contained"
@@ -83,7 +47,7 @@ function Auth({ setIsLogin }) {
                             SignUp
                         </Button>
                         :<Button
-                            onClick={() => login()}
+                            onClick={login}
                             type="submit"
                             style={{ marginRight: 30, textTransform: 'none' }}
                             variant="contained"
