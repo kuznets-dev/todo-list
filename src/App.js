@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container } from "@material-ui/core";
 import { Header } from "./components/Header";
 import Todo from "./components/Todo";
@@ -8,8 +8,17 @@ import axios from './axiosConfig';
 function App() {
 
     const [user, setUser] = useState({ name: '', password: '' });
+    const [userName, setUserName] = useState('');
     const [isSignup, setIsSignup] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
+
+    const isToken = useCallback(() => {
+        if (localStorage.token) setIsLogin(true);
+    }, []);
+
+    useEffect(() => {
+        isToken();
+    }, [isToken]);
 
     const signUp = async () => {
         try {
@@ -31,6 +40,7 @@ function App() {
             });
             const token = res.data.token;
             localStorage.setItem('token', token);
+            setUser({ name: '', password: '' });
             setIsLogin(true);            
         } catch (err) {
             console.log(err);
@@ -46,10 +56,12 @@ function App() {
             style={{ padding: 0 }}
             maxWidth="xl">
             <Header
+                userName={userName}
                 isLogin={isLogin}
                 setIsLogin={setIsLogin}/>
             {isLogin
-            ? <Todo/>
+            ? <Todo
+                setUserName={setUserName}/>
             :<Auth
                 user={user}
                 isSignup={isSignup}
