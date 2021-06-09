@@ -1,10 +1,45 @@
+import { useState } from 'react';
+import axios from '../axiosConfig';
 import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
 
-function Auth() {
+function Auth({ setIsLogin }) {
+    const [user, setUser] = useState({ name: '', password: '' });
+    const [isSignup, setIsSignup] = useState(true);
+
+    const signUp = async () => {
+        try {
+            await axios.post('/registration', {
+                name: user.name,
+                password: user.password
+            })
+            setUser({ name: '', password: '' });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const login = async () => {
+        try {
+            const res = await axios.post('/login', {
+                name: user.name,
+                password: user.password
+            });
+            const token = res.data.token;
+            localStorage.setItem('token', token);
+            setIsLogin(true);
+            setUser({ name: '', password: '' });
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleChange = (e) => {
+        setUser({...user, [e.target.name]: e.target.value});
+    }
+
     return (
         <div className="wrapper">
-            <form>
+            <form onSubmit={e => e.preventDefault()}>
                 <Container>
                     <Grid
                         container
@@ -15,12 +50,20 @@ function Auth() {
                             style={{ marginTop: 100 }}
                             variant="h3"
                             align="center">
-                            Авторизация
+                            {isSignup ? 'SignUp': 'Login'}
                     </Typography>
                         <TextField
+                            type="name"
+                            name="name"
+                            onChange={e => handleChange(e)}
+                            value={user.name}
                             style={{ marginTop: 30 }}
-                            label="E-mail" />
+                            label="Username" />
                         <TextField
+                            type="password"
+                            name="password"
+                            onChange={handleChange}
+                            value={user.password}
                             style={{ marginTop: 30 }}
                             label="Password" />
                     </Grid>
@@ -30,18 +73,34 @@ function Auth() {
                     direction="row"
                     justify="center"
                     align="center">
-                        <Button
-                            style={{ marginRight: 30 }}
+                        {isSignup
+                        ?<Button
+                            onClick={() => signUp()}
+                            type="submit"
+                            style={{ marginRight: 30, textTransform: 'none' }}
                             variant="contained"
                             color="primary">
-                            Войти
+                            SignUp
                         </Button>
-                        <Button color="primary">Нет аккаунта?</Button>
+                        :<Button
+                            onClick={() => login()}
+                            type="submit"
+                            style={{ marginRight: 30, textTransform: 'none' }}
+                            variant="contained"
+                            color="primary">
+                            Login
+                        </Button>}
+                        <Button
+                            onClick={() => setIsSignup(!isSignup)}
+                            style={{ textTransform: 'none' }}
+                            color="primary">
+                            {isSignup ? 'Do you have account?': 'No accaunt?'}
+                        </Button>
                     </Grid>
                 </Container>
             </form>
         </div>
-    )
+    )    
 }
 
 export default Auth;
