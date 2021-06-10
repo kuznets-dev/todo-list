@@ -44,7 +44,6 @@ function App() {
             });
             const token = res.data.token;
             localStorage.setItem('token', token);
-            setUser({ name: '', password: '' });
             setIsLogin(true);            
         } catch (err) {
             const message = err.response.data.message;
@@ -55,6 +54,7 @@ function App() {
 
     const logout = () => {
         localStorage.removeItem('token');
+        setUser({ name: '', password: '' });
         setIsLogin(false);
     }
 
