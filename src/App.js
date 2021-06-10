@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { Container, Snackbar } from "@material-ui/core";
-import { Header } from "./components/Header";
-import Todo from "./components/Todo";
-import Auth from "./components/Auth";
+import { useCallback, useEffect, useState } from 'react';
+import { Container, Snackbar } from '@material-ui/core';
+import { Header } from './components/Header';
+import Todo from './components/Todo';
+import Auth from './components/Auth';
 import axios from './axiosConfig';
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 function App() {
 
@@ -64,7 +64,7 @@ function App() {
     return(
         <Container
             style={{ padding: 0 }}
-            maxWidth="xl">
+            maxWidth='xl'>
             <Header
                 userName={userName}
                 isLogin={isLogin}
@@ -80,7 +80,7 @@ function App() {
                 login={login}
                 handleChange={handleChange}/>}
             <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
+                <Alert onClose={handleClose} severity='error'>
                     <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
                     {`Status code: ${errorAlert.statusCode}`}
                 </Alert>
