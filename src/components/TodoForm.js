@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 function TodoForm({ addTodo }) {
     const [todoName, setTodoName] = useState('');
 
-    const handleChange = (event => {
+    const handleChangeTask = (event => {
         setTodoName(event.target.value)
     })
 
@@ -24,7 +24,7 @@ function TodoForm({ addTodo }) {
         <form onSubmit={handleSumbit}>
             <TextField
                 value={todoName}
-                onChange={handleChange}
+                onChange={handleChangeTask}
                 onKeyDown={handleKeyDown} 
                 placeholder='I want to...'
                 margin='normal'
