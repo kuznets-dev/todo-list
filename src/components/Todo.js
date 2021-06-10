@@ -30,7 +30,7 @@ function Todo({ setUserName }) {
             const response = await axios.get('/tasks', {
                 params: {
                     filterBy: todoStatus,
-                    orderBy: todoSort ? "asc" : 'desc',
+                    orderBy: todoSort ? 'asc' : 'desc',
                     page: currentPage,
                     limit: 5
                 }
@@ -100,20 +100,20 @@ function Todo({ setUserName }) {
     }
 
     return (
-        <div className="wrapper">
+        <div className='wrapper'>
             <Typography
                 style={{ marginTop: 50 }}
-                variant="h1"
-                component="h2"
-                align="center">
+                variant='h1'
+                component='h2'
+                align='center'>
                 Todo
             </Typography>
             <TodoForm addTodo={addTodo} />
             <Grid
                 container
-                direction="row"
-                justify="space-between"
-                alignItems="center">
+                direction='row'
+                justify='space-between'
+                alignItems='center'>
                 <Grid>
                     <TodoFilter
                         todoStatus={todoStatus}
@@ -140,7 +140,7 @@ function Todo({ setUserName }) {
                 </Pagination>
             }
             <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="error">
+                <Alert onClose={handleClose} severity='error'>
                     <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
                     {`Status code: ${errorAlert.statusCode}`}
                 </Alert>
