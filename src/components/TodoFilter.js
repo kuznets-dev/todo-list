@@ -7,20 +7,20 @@ function TodoFilter({ todoStatus, setTodoStatus }) {
         <ButtonGroup>
             <Button
                 onClick={() => setTodoStatus('')}
-                variant={todoStatus === "" ? "contained" : "outlined"}
-                color="default">
+                variant={todoStatus === '' ? 'contained' : 'outlined'}
+                color='default'>
                 All
             </Button>
             <Button
                 onClick={() => setTodoStatus('done')}
-                variant={todoStatus === "done" ? "contained" : "outlined"}
-                color="primary">
+                variant={todoStatus === 'done' ? 'contained' : 'outlined'}
+                color='primary'>
                 Done
             </Button>
             <Button
                 onClick={() => setTodoStatus('undone')}
-                variant={todoStatus === "undone" ? "contained" : "outlined"}
-                color="secondary">
+                variant={todoStatus === 'undone' ? 'contained' : 'outlined'}
+                color='secondary'>
                 Undone
             </Button>
         </ButtonGroup>
