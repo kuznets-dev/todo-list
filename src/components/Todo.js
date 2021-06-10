@@ -16,7 +16,7 @@ function Todo({ setUserName }) {
     // State
     const [todos, setTodos] = useState([]);
     const [todoStatus, setTodoStatus] = useState('');
-    const [todoSort, setTodoSort] = useState(true);
+    const [todoSort, setTodoSort] = useState('desc');
     const [pageCount, setPageCount] = useState(1)
     const [currentPage, setCurrentPage] = useState(1);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
@@ -30,7 +30,7 @@ function Todo({ setUserName }) {
             const response = await axios.get('/tasks', {
                 params: {
                     filterBy: todoStatus,
-                    orderBy: todoSort ? 'asc' : 'desc',
+                    orderBy: todoSort,
                     page: currentPage,
                     limit: 5
                 }
