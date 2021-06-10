@@ -1,11 +1,6 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 
-export const Header = ({ userName, isLogin, setIsLogin }) => {
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        setIsLogin(false);
-    }
+export const Header = ({ userName, isLogin, logout }) => {
 
     return(
             <Grid
