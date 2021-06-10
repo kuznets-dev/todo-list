@@ -53,6 +53,11 @@ function App() {
         }
     }
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        setIsLogin(false);
+    }
+
     const handleChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value});
     }
@@ -68,7 +73,7 @@ function App() {
             <Header
                 userName={userName}
                 isLogin={isLogin}
-                setIsLogin={setIsLogin}/>
+                logout={logout}/>
             {isLogin
             ? <Todo
                 setUserName={setUserName}/>
