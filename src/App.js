@@ -8,11 +8,10 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 
 function App() {
 
-    const [user, setUser] = useState({ name: '', password: '' });
     const [userName, setUserName] = useState('');
     const [isSignup, setIsSignup] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
-    const [errorAlert, setErrorAlert] = useState({alert: false, message: 'message', statusCode: 'status'});
+    const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
 
     const isToken = useCallback(() => {
         if (localStorage.token) setIsLogin(true);
@@ -22,68 +21,64 @@ function App() {
         isToken();
     }, [isToken]);
 
-    const signUp = async () => {
-        try {
-            await axios.post('/registration', {
-                name: user.name,
-                password: user.password
-            })
-            setUser({ name: '', password: '' });
-        } catch (err) {
-            const message = err.response.data.message;
-            const status = err.response.status;   
-            setErrorAlert({alert: true, message: message, statusCode: status});
-        }
-    }
-
-    const login = async () => {
+    const login = async ({ name, password }) => {
         try {
             const res = await axios.post('/login', {
-                name: user.name,
-                password: user.password
+                name,
+                password
             });
             const token = res.data.token;
             localStorage.setItem('token', token);
-            setIsLogin(true);            
+            setIsLogin(true);
         } catch (err) {
             const message = err.response.data.message;
-            const status = err.response.status;   
-            setErrorAlert({alert: true, message: message, statusCode: status});
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
+        }
+    }
+
+    const signUp = async ({ name, password }) => {
+        try {
+            await axios.post('/registration', {
+                name,
+                password
+            })
+            login({ name, password })
+        } catch (err) {
+            const message = err.response.data.message;
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
         }
     }
 
     const logout = () => {
         localStorage.removeItem('token');
-        setUser({ name: '', password: '' });
         setIsLogin(false);
     }
 
-    const handleChange = (e) => {
-        setUser({...user, [e.target.name]: e.target.value});
-    }
+    console.log(123123123);
 
     const handleClose = () => {
-        setErrorAlert(prev => ({...prev, alert: false}));
+        setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
-    return(
+    return (
         <Container
             style={{ padding: 0 }}
             maxWidth='xl'>
             <Header
                 userName={userName}
                 isLogin={isLogin}
-                logout={logout}/>
+                logout={logout} />
             {isLogin
-            ? <Todo
-                setUserName={setUserName}/>
-            :<Auth
-                user={user}
-                isSignup={isSignup}
-                setIsSignup={setIsSignup}
-                signUp={signUp}
-                login={login}
-                handleChange={handleChange}/>}
+                ? <Todo
+                    setUserName={setUserName} />
+                : <Auth
+                    isSignup={isSignup}
+                    setIsSignup={setIsSignup}
+                    signUp={signUp}
+                    login={login}
+                    />}
             <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity='error'>
                     <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
