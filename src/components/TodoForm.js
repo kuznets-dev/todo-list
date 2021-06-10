@@ -26,13 +26,13 @@ function TodoForm({ addTodo }) {
                 value={todoName}
                 onChange={handleChange}
                 onKeyDown={handleKeyDown} 
-                placeholder="I want to..."
-                margin="normal"
+                placeholder='I want to...'
+                margin='normal'
                 fullWidth
                 InputLabelProps={{
                     shrink: true,
                 }}
-                variant="outlined"
+                variant='outlined'
             />
         </form>
     )
