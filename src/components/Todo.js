@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TodoForm from './TodoForm';
-import TodoList from './TodoList';
+import List from '@material-ui/core/List';
+import TodoItem from './TodoItem';
 import TodoFilter from './TodoFilter';
 import TodoSort from './TodoSort';
 import { Grid } from '@material-ui/core';
@@ -127,11 +128,16 @@ function Todo({ setUserName }) {
                     </TodoSort>
                 </Grid>
             </Grid>
-            <TodoList
-                todos={todos}
-                removeTodo={removeTodo}
-                changeTodo={changeTodo}
-            />
+            <List>
+                {todos.map(todo => 
+                    <TodoItem
+                        key={todo.uuid}
+                        todo={todo}
+                        removeTodo={removeTodo}
+                        changeTodo={changeTodo}
+                    />)
+                }
+            </List>
             {(pageCount > 1) &&
                 <Pagination
                     pageCount={pageCount}
