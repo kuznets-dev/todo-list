@@ -5,7 +5,7 @@ function Auth({ isSignup, setIsSignup, signUp, login }) {
     
     const [user, setUser] = useState({ name: '', password: '' });
     
-    const handleChange = (e) => {
+    const handleChangeUser = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
     }
 
@@ -27,14 +27,14 @@ function Auth({ isSignup, setIsSignup, signUp, login }) {
                         <TextField
                             type='name'
                             name='name'
-                            onChange={handleChange}
+                            onChange={handleChangeUser}
                             value={user.name}
                             style={{ marginTop: 30 }}
                             label='Username' />
                         <TextField
                             type='password'
                             name='password'
-                            onChange={handleChange}
+                            onChange={handleChangeUser}
                             value={user.password}
                             style={{ marginTop: 30 }}
                             label='Password' />
