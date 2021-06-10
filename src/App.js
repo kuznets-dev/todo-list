@@ -13,13 +13,15 @@ function App() {
     const [isLogin, setIsLogin] = useState(false);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
 
-    const isToken = useCallback(() => {
-        if (localStorage.token) setIsLogin(true);
+    const validToken = useCallback(() => {
+        if (localStorage.token) {
+            setIsLogin(true)
+        };
     }, []);
 
     useEffect(() => {
-        isToken();
-    }, [isToken]);
+        validToken();
+    }, [validToken]);
 
     const login = async ({ name, password }) => {
         try {
