@@ -19,8 +19,8 @@ function Pagination({ pageCount, currentPage, setCurrentPage }) {
                     {pages.map(item => (
                         <Button
                             key={item}
-                            color="primary"
-                            variant={item === currentPage ? "contained" : "outlined"}
+                            color='primary'
+                            variant={item === currentPage ? 'contained' : 'outlined'}
                             onClick={() => setCurrentPage(item)}>
                             {item}
                         </Button>
