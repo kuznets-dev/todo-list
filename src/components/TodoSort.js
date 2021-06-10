@@ -5,9 +5,9 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 function TodoSort({ todoSort, setTodoSort}) {
 
-    const handleSortTask = (date) => {
-        if (date !== todoSort){
-            setTodoSort(date);
+    const handleSortTask = (sort) => {
+        if (sort !== todoSort){
+            setTodoSort(sort);
         }
     }
 
@@ -22,15 +22,15 @@ function TodoSort({ todoSort, setTodoSort}) {
                 Sorted by Date
             </Typography>
             <IconButton
-                color={todoSort ? 'primary' : 'default'}
-                onClick={() => handleSortTask(true)}
+                color={todoSort === 'desc' ? 'primary' : 'default'}
+                onClick={() => handleSortTask('desc')}
                 aria-label='delete'
                 size='medium'>
                 <ArrowUpwardIcon fontSize='inherit' />
             </IconButton>
             <IconButton
-                color={!todoSort ? 'primary' : 'default'}
-                onClick={() => handleSortTask(false)}
+                color={todoSort === 'asc' ? 'primary' : 'default'}
+                onClick={() => handleSortTask('asc')}
                 aria-label='delete'
                 size='small'>
                 <ArrowDownwardIcon fontSize='inherit' />
