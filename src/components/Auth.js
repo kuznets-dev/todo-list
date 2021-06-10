@@ -1,6 +1,14 @@
 import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
+import { useState } from 'react';
 
-function Auth({ user, isSignup, setIsSignup, signUp, login, handleChange }) {
+function Auth({ isSignup, setIsSignup, signUp, login }) {
+    
+    const [user, setUser] = useState({ name: '', password: '' });
+    
+    const handleChange = (e) => {
+        setUser({ ...user, [e.target.name]: e.target.value });
+    }
+
     return (
         <div className='wrapper'>
             <form onSubmit={e => e.preventDefault()}>
@@ -14,8 +22,8 @@ function Auth({ user, isSignup, setIsSignup, signUp, login, handleChange }) {
                             style={{ marginTop: 100 }}
                             variant='h3'
                             align='center'>
-                            {isSignup ? 'SignUp': 'Login'}
-                    </Typography>
+                            {isSignup ? 'SignUp' : 'Login'}
+                        </Typography>
                         <TextField
                             type='name'
                             name='name'
@@ -32,39 +40,39 @@ function Auth({ user, isSignup, setIsSignup, signUp, login, handleChange }) {
                             label='Password' />
                     </Grid>
                     <Grid
-                    style={{ marginTop: 30 }}
-                    container
-                    direction='row'
-                    justify='center'
-                    align='center'>
+                        style={{ marginTop: 30 }}
+                        container
+                        direction='row'
+                        justify='center'
+                        align='center'>
                         {isSignup
-                        ?<Button
-                            onClick={signUp}
-                            type='submit'
-                            style={{ marginRight: 30, textTransform: 'none' }}
-                            variant='contained'
-                            color='primary'>
-                            SignUp
-                        </Button>
-                        :<Button
-                            onClick={login}
-                            type='submit'
-                            style={{ marginRight: 30, textTransform: 'none' }}
-                            variant='contained'
-                            color='primary'>
-                            Login
-                        </Button>}
+                            ? <Button
+                                onClick={() => signUp(user)}
+                                type='submit'
+                                style={{ marginRight: 30, textTransform: 'none' }}
+                                variant='contained'
+                                color='primary'>
+                                SignUp
+                            </Button>
+                            : <Button
+                                onClick={() => login(user)}
+                                type='submit'
+                                style={{ marginRight: 30, textTransform: 'none' }}
+                                variant='contained'
+                                color='primary'>
+                                Login
+                            </Button>}
                         <Button
                             onClick={() => setIsSignup(!isSignup)}
                             style={{ textTransform: 'none' }}
                             color='primary'>
-                            {isSignup ? 'Do you have account?': 'No accaunt?'}
+                            {isSignup ? 'Do you have account?' : 'No accaunt?'}
                         </Button>
                     </Grid>
                 </Container>
             </form>
         </div>
-    )    
+    )
 }
 
 export default Auth;
