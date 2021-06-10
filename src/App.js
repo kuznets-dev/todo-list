@@ -58,7 +58,7 @@ function App() {
 
     console.log(123123123);
 
-    const handleClose = () => {
+    const closeAlert = () => {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
@@ -79,8 +79,8 @@ function App() {
                     signUp={signUp}
                     login={login}
                     />}
-            <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity='error'>
+            <Snackbar open={errorAlert.alert} autoHideDuration={3000} onClose={closeAlert}>
+                <Alert onClose={closeAlert} severity='error'>
                     <AlertTitle>{`${errorAlert.message}`}</AlertTitle>
                     {`Status code: ${errorAlert.statusCode}`}
                 </Alert>
