@@ -12,13 +12,13 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
     const [todoName, setTodoName] = useState(todo.name);
 
     const handleKeyDown = (todo, e) => {
-        if (e.key === "Enter") {
+        if (e.key === 'Enter') {
             e.preventDefault();
 
             setChangeNameTodo(false);
             changeTodo(todo, todoName, todo.done);
         };
-        if (e.key === "Escape") {
+        if (e.key === 'Escape') {
             setChangeNameTodo(false);
             setTodoName(todo.name);
         };
@@ -37,14 +37,14 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
         <ListItem>
             <Grid
                 container
-                direction="row"
-                alignItems="center">
+                direction='row'
+                alignItems='center'>
                 <Grid item xs={1}>
                     <Checkbox
                     onClick={() => handleDone(todo)}
                     icon={<DoneIcon />}
                     checkedIcon={<DoneAllIcon
-                    color="primary" />}
+                    color='primary' />}
                     checked={todo.done} />
                 </Grid>
                 <Grid item xs={8}>
@@ -71,7 +71,7 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton
-                        aria-label="delete"
+                        aria-label='delete'
                         onClick={() => removeTodo(todo.uuid)}>
                         <DeleteIcon />
                     </IconButton>
