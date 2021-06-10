@@ -14,26 +14,26 @@ function TodoSort({ todoSort, setTodoSort}) {
     return (
         <Grid
             container
-            direction="row"
-            alignItems="center">
+            direction='row'
+            alignItems='center'>
             <Typography
-                variant="h6"
-                component="h2">
+                variant='h6'
+                component='h2'>
                 Sorted by Date
             </Typography>
             <IconButton
                 color={todoSort ? 'primary' : 'default'}
                 onClick={() => handleSort(true)}
-                aria-label="delete"
-                size="small">
-                <ArrowUpwardIcon fontSize="inherit" />
+                aria-label='delete'
+                size='medium'>
+                <ArrowUpwardIcon fontSize='inherit' />
             </IconButton>
             <IconButton
                 color={!todoSort ? 'primary' : 'default'}
                 onClick={() => handleSort(false)}
-                aria-label="delete"
-                size="small">
-                <ArrowDownwardIcon fontSize="inherit" />
+                aria-label='delete'
+                size='small'>
+                <ArrowDownwardIcon fontSize='inherit' />
             </IconButton>
         </Grid>
     )
