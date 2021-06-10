@@ -32,7 +32,7 @@ function TodoSort({ todoSort, setTodoSort}) {
                 color={todoSort === 'asc' ? 'primary' : 'default'}
                 onClick={() => handleSortTask('asc')}
                 aria-label='delete'
-                size='small'>
+                size='medium'>
                 <ArrowDownwardIcon fontSize='inherit' />
             </IconButton>
         </Grid>
