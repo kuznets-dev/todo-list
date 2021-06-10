@@ -56,8 +56,6 @@ function App() {
         setIsLogin(false);
     }
 
-    console.log(123123123);
-
     const closeAlert = () => {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
