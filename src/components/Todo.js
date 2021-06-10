@@ -40,7 +40,9 @@ function Todo({ setUserName }) {
             setPageCount(response.data.pageCount);
             setTodos(response.data.rows);
         } catch (err) {
-            console.log(err.response);
+            const message = err.response.data.message;
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
         }
     }, [setUserName, todoStatus, todoSort, currentPage]);
 
