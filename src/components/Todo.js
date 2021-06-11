@@ -22,6 +22,7 @@ function Todo({ setIsLogin }) {
     const [pageCount, setPageCount] = useState(1)
     const [currentPage, setCurrentPage] = useState(1);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
+    const [currentTodo, setCurrentTodo] = useState(null);
 
     // Fetch API
     // GET
@@ -110,6 +111,41 @@ function Todo({ setIsLogin }) {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
+    const dragStartHandler = (e, todo) => {
+        console.log('drag', todo);
+        setCurrentTodo(todo);
+    }
+
+    const dragEndHandler = (e) => {
+        e.target.style.background = 'white';
+    }
+
+    const dragOverHandler = (e) => {
+        e.preventDefault()
+        e.target.style.background = 'lightgray';
+    }
+
+    const dragDropHandler = (e, todo) => {
+        e.preventDefault()
+        console.log('drop', todo);
+        setTodos(todos.map((item, index) => {
+            if (item.uuid === todo.uuid) {
+                return {...item, index: currentTodo.index}
+            }
+            if (item.uuid === currentTodo.uuid) {
+                return {...item, index: todo.index}
+            }
+            return item;
+        }))
+    }
+
+    const dragSort = (a, b) => {
+        if (a.todoSort > b.todoSort) {
+            return 1;
+        }
+        return -1;
+    }
+
     return (
         <div className='wrapper'>
             <Typography
@@ -138,13 +174,23 @@ function Todo({ setIsLogin }) {
                 </Grid>
             </Grid>
             <List>
-                {todos.map(todo => 
-                    <TodoItem
-                        key={todo.uuid}
-                        todo={todo}
-                        removeTodo={removeTodo}
-                        changeTodo={changeTodo}
-                    />)
+                {todos.sort(dragSort).map(todo =>
+                        <div
+                            onDragStart={(e) => dragStartHandler(e, todo)}
+                            onDragLeave={(e) => dragEndHandler(e)}
+                            onDragEnd={(e) => dragEndHandler(e)}
+                            onDragOver={(e) => dragOverHandler(e)}
+                            onDrop={(e) => dragDropHandler(e, todo)}
+                            key={todo.uuid} 
+                            draggable={true}>
+                                <TodoItem
+                                    key={todo.uuid}
+                                    todo={todo}
+                                    removeTodo={removeTodo}
+                                    changeTodo={changeTodo}
+                                />
+                        </div> 
+                    )
                 }
             </List>
             {(pageCount > 1) &&
