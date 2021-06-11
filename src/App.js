@@ -5,6 +5,7 @@ import Todo from './components/Todo';
 import Auth from './components/Auth';
 import axios from './axiosConfig';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import * as jwt from 'jsonwebtoken';
 
 function App() {
 
@@ -13,15 +14,21 @@ function App() {
     const [isLogin, setIsLogin] = useState(false);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
 
-    const validToken = useCallback(() => {
+    const checkToken = useCallback(() => {
         if (localStorage.token) {
-            setIsLogin(true)
+            const validToken = jwt.decode(localStorage.token);
+            if (validToken) {
+                setIsLogin(true);
+                return;
+            }
+            localStorage.removeItem('token');
+            setIsLogin(false);
         };
     }, []);
 
     useEffect(() => {
-        validToken();
-    }, [validToken]);
+        checkToken();
+    }, [checkToken]);
 
     const login = async ({ name, password }) => {
         try {
