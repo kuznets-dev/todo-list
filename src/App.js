@@ -79,6 +79,7 @@ function App() {
                 logout={logout} />
             {isLogin
                 ? <Todo
+                    setIsLogin={setIsLogin}
                     setUserName={setUserName} />
                 : <Auth
                     isSignup={isSignup}
