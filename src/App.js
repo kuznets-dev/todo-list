@@ -38,6 +38,7 @@ function App() {
             });
             const token = res.data.token;
             localStorage.setItem('token', token);
+            localStorage.setItem('name', name);
             setIsLogin(true);
         } catch (err) {
             const message = err.response.data.message;
@@ -62,6 +63,7 @@ function App() {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('name');
         setIsLogin(false);
     }
 
