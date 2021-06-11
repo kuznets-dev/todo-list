@@ -11,8 +11,9 @@ import axios from '../axiosConfig';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
+import * as jwt from 'jsonwebtoken';
 
-function Todo({ setUserName }) {
+function Todo({ setIsLogin, setUserName }) {
 
     // State
     const [todos, setTodos] = useState([]);
@@ -43,8 +44,16 @@ function Todo({ setUserName }) {
             const message = err.response.data.message;
             const status = err.response.status;
             setErrorAlert({ alert: true, message: message, statusCode: status });
+
+            const validToken = jwt.decode(localStorage.token);
+            if (validToken) {
+                setIsLogin(true);
+                return;
+            }
+            localStorage.removeItem('token');
+            setIsLogin(false);
         }
-    }, [setUserName, todoStatus, todoSort, currentPage]);
+    }, [setIsLogin, setUserName, todoStatus, todoSort, currentPage]);
 
     useEffect(() => {
         fetchTodos()
