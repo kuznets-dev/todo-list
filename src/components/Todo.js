@@ -113,9 +113,8 @@ function Todo({ setIsLogin }) {
     return (
         <div className='wrapper'>
             <Typography
-                style={{ marginTop: 50 }}
-                variant='h1'
-                component='h2'
+                style={{ marginTop: 100 }}
+                variant='h2'
                 align='center'>
                 Todo
             </Typography>
