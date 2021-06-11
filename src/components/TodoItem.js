@@ -10,6 +10,7 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
 
     const [changeNameTodo, setChangeNameTodo] = useState(false);
     const [todoName, setTodoName] = useState(todo.name);
+    const [disableButton, setDisableButton] = useState(false);
 
     const handleKeyDown = (todo, e) => {
         if (e.key === 'Enter') {
@@ -31,6 +32,11 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
     const onBlur = () => {
         setChangeNameTodo(false);
         setTodoName(todo.name);
+    }
+
+    const handleDelete = () => {
+        setDisableButton(true);
+        removeTodo(todo.uuid);
     }
 
     return (
@@ -72,7 +78,8 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
                 <Grid item xs={1}>
                     <IconButton
                         aria-label='delete'
-                        onClick={() => removeTodo(todo.uuid)}>
+                        disabled={disableButton}
+                        onClick={() => handleDelete()}>
                         <DeleteIcon />
                     </IconButton>
                 </Grid>
