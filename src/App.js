@@ -9,7 +9,6 @@ import * as jwt from 'jsonwebtoken';
 
 function App() {
 
-    const [userName, setUserName] = useState('');
     const [isSignup, setIsSignup] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
@@ -76,13 +75,12 @@ function App() {
             style={{ padding: 0 }}
             maxWidth='xl'>
             <Header
-                userName={userName}
                 isLogin={isLogin}
                 logout={logout} />
             {isLogin
                 ? <Todo
                     setIsLogin={setIsLogin}
-                    setUserName={setUserName} />
+                    />
                 : <Auth
                     isSignup={isSignup}
                     setIsSignup={setIsSignup}

@@ -13,7 +13,7 @@ import Alert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
 import * as jwt from 'jsonwebtoken';
 
-function Todo({ setIsLogin, setUserName }) {
+function Todo({ setIsLogin }) {
 
     // State
     const [todos, setTodos] = useState([]);
@@ -37,7 +37,6 @@ function Todo({ setIsLogin, setUserName }) {
                     limit: 5
                 }
             });
-            setUserName(response.data.name);
             setPageCount(response.data.pageCount);
             setTodos(response.data.rows);
         } catch (err) {
@@ -53,7 +52,7 @@ function Todo({ setIsLogin, setUserName }) {
             localStorage.removeItem('token');
             setIsLogin(false);
         }
-    }, [setIsLogin, setUserName, todoStatus, todoSort, currentPage]);
+    }, [setIsLogin, todoStatus, todoSort, currentPage]);
 
     useEffect(() => {
         fetchTodos()

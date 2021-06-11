@@ -1,6 +1,6 @@
 import { Button, Grid, Typography } from '@material-ui/core';
 
-export const Header = ({ userName, isLogin, logout }) => {
+export const Header = ({ isLogin, logout }) => {
 
     return(
             <Grid
