@@ -12,6 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { AlertTitle } from '@material-ui/lab';
 import * as jwt from 'jsonwebtoken';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 function Todo({ setIsLogin }) {
 
@@ -22,7 +23,6 @@ function Todo({ setIsLogin }) {
     const [pageCount, setPageCount] = useState(1)
     const [currentPage, setCurrentPage] = useState(1);
     const [errorAlert, setErrorAlert] = useState({ alert: false, message: 'message', statusCode: 'status' });
-    const [currentTodo, setCurrentTodo] = useState(null);
 
     // Fetch API
     // GET
@@ -111,35 +111,12 @@ function Todo({ setIsLogin }) {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
-    const dragStartHandler = (e, todo) => {
-        setCurrentTodo(todo);
-    }
-
-    const dragEndHandler = (e) => {
-    }
-
-    const dragOverHandler = (e) => {
-        e.preventDefault()
-    }
-
-    const dragDropHandler = (e, todo) => {
-        e.preventDefault()
-        setTodos(todos.map((item) => {
-            if (item.uuid === todo.uuid) {
-                return {...item, uuid: currentTodo.uuid}
-            }
-            if (item.uuid === currentTodo.uuid) {
-                return {...item, uuid: todo.uuid}
-            }
-            return item;
-        }))
-    }
-
-    const dragSort = (a, b) => {
-        if (a.uuid > b.uuid) {
-            return 1;
-        }
-        return -1;
+    const handleOnDragEnd = (result) => {
+        if (!result.destination) return;
+        const items = Array.from(todos);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setTodos(items);
     }
 
     return (
@@ -169,26 +146,38 @@ function Todo({ setIsLogin }) {
                     </TodoSort>
                 </Grid>
             </Grid>
-            <List>
-                {todos.sort(dragSort).map(todo =>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId='todos'>
+                    {(provided) =>
                         <div
-                            onDragStart={(e) => dragStartHandler(e, todo)}
-                            onDragLeave={(e) => dragEndHandler(e)}
-                            onDragEnd={(e) => dragEndHandler(e)}
-                            onDragOver={(e) => dragOverHandler(e)}
-                            onDrop={(e) => dragDropHandler(e, todo)}
-                            key={todo.uuid} 
-                            draggable={true}>
-                                <TodoItem
-                                    key={todo.uuid}
-                                    todo={todo}
-                                    removeTodo={removeTodo}
-                                    changeTodo={changeTodo}
-                                />
-                        </div> 
-                    )
-                }
-            </List>
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}>
+                                <List>
+                                    {todos.map((todo, index) => 
+                                        <Draggable
+                                            key={todo.uuid}
+                                            draggableId={todo.uuid}
+                                            index={index}>
+                                            {(provided) =>
+                                                <div
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    ref={provided.innerRef}>
+                                                    <TodoItem
+                                                        todo={todo}
+                                                        removeTodo={removeTodo}
+                                                        changeTodo={changeTodo}
+                                                    />
+                                                </div> 
+                                            }
+                                        </Draggable>
+                                    )}
+                                    {provided.placeholder}
+                                </List>
+                        </div>
+                    }
+                </Droppable>
+            </DragDropContext>
             {(pageCount > 1) &&
                 <Pagination
                     pageCount={pageCount}
