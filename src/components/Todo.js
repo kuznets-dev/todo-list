@@ -112,35 +112,31 @@ function Todo({ setIsLogin }) {
     }
 
     const dragStartHandler = (e, todo) => {
-        console.log('drag', todo);
         setCurrentTodo(todo);
     }
 
     const dragEndHandler = (e) => {
-        e.target.style.background = 'white';
     }
 
     const dragOverHandler = (e) => {
         e.preventDefault()
-        e.target.style.background = 'lightgray';
     }
 
     const dragDropHandler = (e, todo) => {
         e.preventDefault()
-        console.log('drop', todo);
-        setTodos(todos.map((item, index) => {
+        setTodos(todos.map((item) => {
             if (item.uuid === todo.uuid) {
-                return {...item, index: currentTodo.index}
+                return {...item, uuid: currentTodo.uuid}
             }
             if (item.uuid === currentTodo.uuid) {
-                return {...item, index: todo.index}
+                return {...item, uuid: todo.uuid}
             }
             return item;
         }))
     }
 
     const dragSort = (a, b) => {
-        if (a.todoSort > b.todoSort) {
+        if (a.uuid > b.uuid) {
             return 1;
         }
         return -1;
