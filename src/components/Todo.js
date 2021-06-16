@@ -107,6 +107,22 @@ function Todo({ setIsLogin }) {
         }
     }
 
+    // PATCH for dnd
+    const dragTask = async (source, destination) => {
+        console.log(source, destination);
+        try {
+            await axios.patch(`dnd`, {
+                source,
+                destination
+            });
+            // await fetchTodos();
+        } catch (err) {
+            const message = err.response.data.message;
+            const status = err.response.status;
+            setErrorAlert({ alert: true, message: message, statusCode: status });
+        }
+    }
+
     const closeAlert = () => {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
@@ -117,6 +133,7 @@ function Todo({ setIsLogin }) {
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
         setTodos(items);
+        dragTask(result.source.index, result.destination.index);
     }
 
     return (
