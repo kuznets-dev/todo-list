@@ -11,6 +11,10 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
     const [changeNameTodo, setChangeNameTodo] = useState(false);
     const [todoName, setTodoName] = useState(todo.name);
     const [disableButton, setDisableButton] = useState(false);
+    
+    const date = todo.createdAt.match(/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/);
+    const time = todo.createdAt.match(/T(((([0-1][0-9])|(2[0-3])):?[0-5][0-9]))/g);
+    const dateTime = date !== null && time !== null ? `${time[0].replace('T', '')} ${date[0]}`: "Not date";
 
     const handleKeyDown = (todo, e) => {
         if (e.key === 'Enter') {
@@ -72,7 +76,7 @@ function TodoItem({ todo, removeTodo, changeTodo }) {
                 </Grid>
                 <Grid item xs={2}>
                     <ListItemText>
-                        {todo.updatedAt}
+                        {dateTime}
                     </ListItemText>
                 </Grid>
                 <Grid item xs={1}>
