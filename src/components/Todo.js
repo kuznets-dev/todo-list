@@ -109,13 +109,12 @@ function Todo({ setIsLogin }) {
 
     // PATCH for dnd
     const dragTask = async (source, destination) => {
-        console.log(source, destination);
         try {
             await axios.patch(`dnd`, {
                 source,
                 destination
             });
-            // await fetchTodos();
+            await fetchTodos();
         } catch (err) {
             const message = err.response.data.message;
             const status = err.response.status;
@@ -133,7 +132,7 @@ function Todo({ setIsLogin }) {
         const [reorderedItem] = items.splice(source.index, 1);
         items.splice(destination.index, 0, reorderedItem);
         setTodos(items);
-        dragTask(todos[source.index].index, todos[destination.index].index);
+        dragTask(todos[source.index], todos[destination.index]);
     }
 
     return (
