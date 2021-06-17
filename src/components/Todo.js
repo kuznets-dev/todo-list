@@ -127,13 +127,13 @@ function Todo({ setIsLogin }) {
         setErrorAlert(prev => ({ ...prev, alert: false }));
     }
 
-    const handleOnDragEnd = (result) => {
-        if (!result.destination) return;
+    const handleOnDragEnd = ({ source, destination }) => {
+        if (!destination) return;
         const items = Array.from(todos);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
+        const [reorderedItem] = items.splice(source.index, 1);
+        items.splice(destination.index, 0, reorderedItem);
         setTodos(items);
-        dragTask(result.source.index, result.destination.index);
+        dragTask(todos[source.index].index, todos[destination.index].index);
     }
 
     return (
@@ -169,28 +169,28 @@ function Todo({ setIsLogin }) {
                         <div
                             {...provided.droppableProps}
                             ref={provided.innerRef}>
-                                <List>
-                                    {todos.map((todo, index) => 
-                                        <Draggable
-                                            key={todo.uuid}
-                                            draggableId={todo.uuid}
-                                            index={index}>
-                                            {(provided) =>
-                                                <div
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    ref={provided.innerRef}>
-                                                    <TodoItem
-                                                        todo={todo}
-                                                        removeTodo={removeTodo}
-                                                        changeTodo={changeTodo}
-                                                    />
-                                                </div> 
-                                            }
-                                        </Draggable>
-                                    )}
-                                    {provided.placeholder}
-                                </List>
+                            <List>
+                                {todos.map((todo, index) =>
+                                    <Draggable
+                                        key={todo.uuid}
+                                        draggableId={todo.uuid}
+                                        index={index}>
+                                        {(provided) =>
+                                            <div
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                ref={provided.innerRef}>
+                                                <TodoItem
+                                                    todo={todo}
+                                                    removeTodo={removeTodo}
+                                                    changeTodo={changeTodo}
+                                                />
+                                            </div>
+                                        }
+                                    </Draggable>
+                                )}
+                                {provided.placeholder}
+                            </List>
                         </div>
                     }
                 </Droppable>
